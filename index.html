@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auris — Lista de espera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #F6F4F1;
+      --ink:       #0D0D0D;
+      --ink2:      #4B4A46;
+      --ink3:      #9B9A91;
+      --gold:      #C8A96E;
+      --gold-lt:   #EAD9BC;
+      --gold-dk:   #A88B52;
+      --card:      #FFFFFF;
+      --line:      rgba(13,13,13,0.09);
+      --serif:     'DM Serif Display', Georgia, serif;
+      --sans:      'DM Sans', system-ui, sans-serif;
+      --radius:    18px;
+    }
+
+    html { scroll-behavior: smooth; }
+    section[id] { scroll-margin-top: 88px; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 64px;
+      background: rgba(246,244,241,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-logo { font-family: var(--serif); font-size: 22px; color: var(--ink); text-decoration: none; letter-spacing: -0.4px; }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 14px; color: var(--ink2); text-decoration: none;
+      position: relative; padding-bottom: 2px; transition: color .2s;
+    }
+    .nav-links a::after {
+      content:''; position: absolute; bottom:-2px; left:0; right:0;
+      height:1.5px; background:var(--gold);
+      transform:scaleX(0); transform-origin:left; transition:transform .25s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+    .nav-cta {
+      background: var(--ink); color: #fff;
+      padding: 10px 24px; border-radius: 100px;
+      font-size: 13px; font-weight: 500; text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: #2a2a2a; transform: translateY(-1px); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 148px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+    .glow { position:absolute; border-radius:50%; background: radial-gradient(circle, rgba(200,169,110,.14) 0%, transparent 68%); }
+    .glow-1 { width:700px; height:700px; top:-120px; right:-180px; }
+    .glow-2 { width:500px; height:500px; bottom:-60px; left:-140px; }
+    .hero-grid {
+      position:absolute; inset:0;
+      background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 0%, transparent 100%);
+    }
+    .hero-inner { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; width:100%; }
+
+    .hero-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      border: 1px solid var(--gold-lt); background: rgba(200,169,110,.08);
+      padding: 6px 18px; border-radius:100px;
+      font-size:12px; font-weight:500; color:#8A6B35;
+      letter-spacing:.07em; text-transform:uppercase;
+      margin-bottom:36px; animation: fadeUp .6s ease both;
+    }
+    .hero-badge-dot { width:6px; height:6px; border-radius:50%; background:var(--gold); animation: blink 2s ease infinite; }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.5)} }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(42px, 6.5vw, 84px);
+      line-height: 1.06; letter-spacing: -2.5px;
+      color: var(--ink); max-width: 860px;
+      margin-bottom: 28px; animation: fadeUp .7s .1s ease both;
+    }
+    .hero h1 em { font-style:italic; color:var(--gold); }
+
+    .hero-sub {
+      font-size: 18px; font-weight:300; color:var(--ink2);
+      max-width: 520px; line-height:1.75; margin-bottom:12px;
+      animation: fadeUp .7s .2s ease both;
+    }
+    .hero-note { font-size:13px; color:var(--ink3); margin-bottom:48px; animation: fadeUp .7s .25s ease both; }
+    .hero-note strong { color:var(--gold-dk); }
+
+    /* WAITLIST BOX */
+    .waitlist-box {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 24px; padding: 44px 48px;
+      width: 100%; max-width: 560px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.04);
+      animation: fadeUp .8s .35s ease both;
+    }
+    .waitlist-box h3 { font-family: var(--serif); font-size: 26px; letter-spacing:-.5px; color:var(--ink); margin-bottom:6px; }
+    .waitlist-box > p { font-size:14px; color:var(--ink2); margin-bottom:28px; }
+
+    .form-group { margin-bottom:16px; }
+    .form-group label { display:block; font-size:12px; font-weight:500; color:var(--ink2); letter-spacing:.04em; text-transform:uppercase; margin-bottom:8px; }
+    .form-group input, .form-group select {
+      width:100%; padding:13px 16px;
+      background:var(--bg); border:1px solid var(--line);
+      border-radius:12px; font-family:var(--sans); font-size:15px; color:var(--ink);
+      outline:none; transition:border-color .2s, box-shadow .2s;
+      appearance:none; -webkit-appearance:none;
+    }
+    .form-group input::placeholder { color:var(--ink3); }
+    .form-group input:focus, .form-group select:focus {
+      border-color:var(--gold); box-shadow: 0 0 0 3px rgba(200,169,110,.15);
+    }
+    .select-wrap { position:relative; }
+    .select-wrap::after { content:'↓'; position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:13px; color:var(--ink3); pointer-events:none; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+    .btn-submit {
+      width:100%; padding:15px; background:var(--ink); color:#fff;
+      border:none; border-radius:100px; font-family:var(--sans); font-size:15px; font-weight:500;
+      cursor:pointer; margin-top:8px;
+      transition:background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 24px rgba(0,0,0,.18);
+    }
+    .btn-submit:hover { background:#222; transform:translateY(-2px); box-shadow:0 8px 32px rgba(0,0,0,.22); }
+    .btn-submit.loading { opacity:.6; cursor:not-allowed; }
+    .form-disclaimer { font-size:12px; color:var(--ink3); text-align:center; margin-top:14px; line-height:1.5; }
+
+    .success-msg { display:none; text-align:center; padding:20px 0; }
+    .success-icon {
+      width:60px; height:60px; border-radius:50%;
+      background:linear-gradient(135deg,var(--gold),var(--gold-dk));
+      display:flex; align-items:center; justify-content:center;
+      font-size:26px; margin:0 auto 20px;
+      animation: popIn .4s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes popIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+    .success-msg h4 { font-family:var(--serif); font-size:24px; color:var(--ink); margin-bottom:8px; }
+    .success-msg p { font-size:14px; color:var(--ink2); }
+    .success-position { display:inline-block; margin-top:16px; background:var(--bg); border:1px solid var(--gold-lt); color:var(--gold-dk); font-size:13px; font-weight:500; padding:8px 20px; border-radius:100px; }
+
+    .counter-row { display:flex; align-items:center; gap:12px; justify-content:center; margin-top:24px; animation: fadeUp .8s .5s ease both; }
+    .counter-avatars { display:flex; }
+    .counter-avatars span { width:32px; height:32px; border-radius:50%; border:2px solid var(--bg); display:flex; align-items:center; justify-content:center; font-size:13px; margin-left:-8px; background:var(--gold-lt); }
+    .counter-avatars span:first-child { margin-left:0; }
+    .counter-text { font-size:13px; color:var(--ink2); }
+    .counter-text strong { color:var(--ink); }
+
+    /* SECTIONS */
+    .section-label { font-size:12px; font-weight:500; color:var(--gold); letter-spacing:.1em; text-transform:uppercase; margin-bottom:14px; }
+    .section-title { font-family: var(--serif); font-size: clamp(30px, 4vw, 50px); line-height:1.1; letter-spacing:-1.2px; color:var(--ink); margin-bottom:18px; }
+    .section-title em { font-style:italic; color:var(--gold); }
+    .section-sub { font-size:17px; font-weight:300; color:var(--ink2); max-width:520px; line-height:1.7; }
+
+    /* NICHOS */
+    #nichos { padding: 100px 64px; background: var(--card); border-top: 1px solid var(--line); }
+    .nichos-inner { max-width:1100px; margin:0 auto; }
+    .nichos-header { text-align:center; margin-bottom:64px; }
+    .nichos-header .section-sub { margin:0 auto; }
+
+    .nichos-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:20px; }
+    .nicho {
+      background:var(--bg); border:1px solid var(--line); border-radius:var(--radius);
+      padding:32px 20px; text-align:center;
+      transition:border-color .25s, box-shadow .25s, transform .25s;
+      position:relative; overflow:hidden;
+    }
+    .nicho::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(200,169,110,.06) 0%, transparent 60%); opacity:0; transition:opacity .3s; }
+    .nicho:hover { border-color:var(--gold-lt); transform:translateY(-5px); box-shadow:0 14px 48px rgba(200,169,110,.13); }
+    .nicho:hover::before { opacity:1; }
+    .nicho-emoji { font-size:38px; margin-bottom:16px; display:block; }
+    .nicho-name { font-size:15px; font-weight:500; color:var(--ink); margin-bottom:8px; }
+    .nicho-desc { font-size:13px; color:var(--ink2); line-height:1.55; }
+    .nicho-features { margin-top:14px; display:flex; flex-direction:column; gap:5px; }
+    .nicho-feat { font-size:11px; color:var(--ink3); display:flex; align-items:center; gap:5px; justify-content:center; }
+    .nicho-feat::before { content:'✓'; color:var(--gold); font-weight:600; }
+
+    /* CÓMO FUNCIONA */
+    #como-funciona { padding: 100px 64px; }
+    .como-inner { max-width:1100px; margin:0 auto; }
+    .como-header { margin-bottom:64px; }
+
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; position:relative; }
+    .steps::before { content:''; position:absolute; top:52px; left:calc(16.66% + 16px); right:calc(16.66% + 16px); height:1px; background:linear-gradient(90deg,var(--gold-lt),var(--gold),var(--gold-lt)); z-index:0; }
+    .step { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:36px 28px; position:relative; z-index:1; transition:box-shadow .25s, transform .25s; }
+    .step:hover { box-shadow:0 12px 48px rgba(0,0,0,.07); transform:translateY(-4px); }
+    .step-num-wrap { width:48px; height:48px; border-radius:50%; background:var(--gold-lt); border:1px solid var(--gold); display:flex; align-items:center; justify-content:center; margin-bottom:24px; }
+    .step-num { font-family:var(--serif); font-size:20px; color:var(--gold-dk); line-height:1; }
+    .step h3 { font-size:17px; font-weight:500; color:var(--ink); margin-bottom:10px; }
+    .step p { font-size:14px; color:var(--ink2); line-height:1.65; }
+
+    /* FUNCIONES */
+    #funciones { padding:100px 64px; background:var(--card); border-top:1px solid var(--line); }
+    .feat-inner { max-width:1100px; margin:0 auto; }
+    .feat-header { text-align:center; margin-bottom:64px; }
+    .feat-header .section-sub { margin:0 auto; }
+    .feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .feat-card { background:var(--bg); border:1px solid var(--line); border-radius:var(--radius); padding:32px; transition:border-color .25s, box-shadow .25s, transform .25s; }
+    .feat-card:hover { border-color:var(--gold-lt); box-shadow:0 8px 36px rgba(200,169,110,.1); transform:translateY(-3px); }
+    .feat-icon { width:48px; height:48px; border-radius:14px; background:var(--gold-lt); display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:18px; }
+    .feat-card h4 { font-size:16px; font-weight:500; color:var(--ink); margin-bottom:8px; }
+    .feat-card p { font-size:14px; color:var(--ink2); line-height:1.65; }
+
+    /* MÉTRICAS */
+    .metrics { padding:100px 64px; background:var(--ink); }
+    .metrics-inner { max-width:1100px; margin:0 auto; text-align:center; }
+    .metrics .section-label { color:var(--gold); }
+    .metrics .section-title { color:#fff; margin-bottom:18px; }
+    .metrics .section-sub { color:rgba(255,255,255,.5); margin:0 auto 64px; }
+    .metrics-grid { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid rgba(255,255,255,.08); border-radius:20px; overflow:hidden; }
+    .metric-card { padding:48px 32px; background:rgba(255,255,255,.02); border-right:1px solid rgba(255,255,255,.08); }
+    .metric-card:last-child { border-right:none; }
+    .metric-val { font-family:var(--serif); font-size:60px; color:var(--gold); line-height:1; margin-bottom:10px; }
+    .metric-lbl { font-size:14px; color:rgba(255,255,255,.45); line-height:1.5; }
+
+    /* WAITLIST BOTTOM */
+    #waitlist-bottom { padding:100px 64px; text-align:center; background:linear-gradient(160deg, #faf8f5 0%, #f0ece4 100%); border-top:1px solid var(--line); }
+    .wl-bottom-inner { max-width:680px; margin:0 auto; }
+    .wl-bottom-inner .section-title { margin-bottom:16px; }
+    .wl-bottom-inner .section-sub { margin:0 auto 48px; }
+    .wl-form-inline { display:flex; gap:12px; max-width:480px; margin:0 auto; }
+    .wl-form-inline input { flex:1; padding:14px 20px; background:var(--card); border:1px solid var(--line); border-radius:100px; font-family:var(--sans); font-size:15px; color:var(--ink); outline:none; transition:border-color .2s, box-shadow .2s; }
+    .wl-form-inline input::placeholder { color:var(--ink3); }
+    .wl-form-inline input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(200,169,110,.15); }
+    .wl-form-inline button { background:var(--ink); color:#fff; padding:14px 28px; border:none; border-radius:100px; font-family:var(--sans); font-size:14px; font-weight:500; cursor:pointer; white-space:nowrap; transition:background .2s, transform .15s; }
+    .wl-form-inline button:hover { background:#2a2a2a; transform:translateY(-1px); }
+    .wl-inline-note { font-size:12px; color:var(--ink3); margin-top:14px; }
+
+    /* FOOTER */
+    footer { padding:40px 64px; background:var(--ink); display:flex; align-items:center; justify-content:space-between; border-top:1px solid rgba(255,255,255,.06); }
+    .footer-logo { font-family:var(--serif); font-size:20px; color:rgba(255,255,255,.55); text-decoration:none; }
+    .footer-logo span { color:var(--gold); }
+    .footer-links { display:flex; gap:28px; list-style:none; }
+    .footer-links a { font-size:13px; color:rgba(255,255,255,.3); text-decoration:none; transition:color .2s; }
+    .footer-links a:hover { color:rgba(255,255,255,.65); }
+    .footer-copy { font-size:12px; color:rgba(255,255,255,.18); }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:translateY(0); } }
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width:960px) {
+      nav { padding:18px 24px; }
+      .nav-links { display:none; }
+      #nichos, #como-funciona, #funciones, .metrics, #waitlist-bottom { padding:72px 24px; }
+      .nichos-grid { grid-template-columns:1fr 1fr; }
+      .steps { grid-template-columns:1fr; }
+      .nichos-grid { grid-template-columns:1fr 1fr 1fr; }
+      .steps::before { display:none; }
+      .feat-grid { grid-template-columns:1fr 1fr; }
+      .metrics-grid { grid-template-columns:1fr; }
+      .metric-card { border-right:none; border-bottom:1px solid rgba(255,255,255,.08); }
+      .metric-card:last-child { border-bottom:none; }
+      footer { flex-direction:column; gap:20px; text-align:center; }
+      .footer-links { flex-wrap:wrap; justify-content:center; }
+      .form-row { grid-template-columns:1fr; }
+      .wl-form-inline { flex-direction:column; }
+      .waitlist-box { padding:32px 24px; }
+    }
+    @media (max-width:600px) {
+      .feat-grid { grid-template-columns:1fr; }
+      .nichos-grid { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#inicio" class="nav-logo">Auris<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#nichos">Industrias</a></li>
+    <li><a href="#como-funciona">Cómo funciona</a></li>
+    <li><a href="#funciones">Funciones</a></li>
+  </ul>
+  <a href="#waitlist" class="nav-cta">Unirse a la lista</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-badge"><div class="hero-badge-dot"></div>Lanzamiento próximo — Únete ahora</div>
+    <h1>Tu negocio siempre <em>disponible.</em> Cada llamada, <em>atendida.</em></h1>
+    <p class="hero-sub">Auris es la IA que responde llamadas, toma pedidos, agenda citas y registra todo automáticamente — sin intervención humana.</p>
+    <p class="hero-note">Estamos construyendo Auris. Sé de los <strong>primeros en acceder</strong> con precio especial de lanzamiento.</p>
+
+    <!-- FORM -->
+    <div class="waitlist-box" id="waitlist">
+      <h3>Reserva tu lugar</h3>
+      <p>Únete a la lista de espera y obtén acceso anticipado con descuento exclusivo.</p>
+      <div id="wl-form-wrap">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" id="wl-nombre" placeholder="Tu nombre" />
+          </div>
+          <div class="form-group">
+            <label>Apellido</label>
+            <input type="text" id="wl-apellido" placeholder="Tu apellido" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" id="wl-email" placeholder="tu@negocio.com" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>WhatsApp</label>
+            <input type="tel" id="wl-tel" placeholder="+52 81 0000 0000" />
+          </div>
+          <div class="form-group">
+            <label>Tipo de negocio</label>
+            <div class="select-wrap">
+              <select id="wl-tipo">
+                <option value="" disabled selected>Selecciona</option>
+                <option value="restaurante">🍽️ Restaurante</option>
+                <option value="clinica">🏥 Clínica / Consultorio</option>
+                <option value="airbnb">🏠 Airbnb / Hospedaje</option>
+                <option value="hotel">🏨 Hotel</option>
+                <option value="salon">💇 Salón de belleza</option>
+                <option value="real-estate">🏢 Real Estate</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Nombre de tu negocio</label>
+          <input type="text" id="wl-negocio" placeholder="Ej. Restaurante El Rincón" />
+        </div>
+        <button class="btn-submit" id="wl-btn" onclick="submitWaitlist()">Unirme a la lista de espera →</button>
+        <p class="form-disclaimer">Sin spam. Solo te avisamos cuando estemos listos. Puedes cancelar cuando quieras.</p>
+      </div>
+      <div class="success-msg" id="wl-success">
+        <div class="success-icon">✓</div>
+        <h4>¡Ya estás en la lista!</h4>
+        <p>Te avisaremos en cuanto Auris esté listo. Eres parte de los primeros.</p>
+        <div class="success-position">Lugar #<span id="pos-num">247</span> en la lista</div>
+      </div>
+    </div>
+
+    <div class="counter-row">
+      <div class="counter-avatars">
+        <span>🍽️</span><span>🏥</span><span>🏠</span><span>🏨</span><span>💇</span><span>🏢</span>
+      </div>
+      <p class="counter-text"><strong id="count-num">246</strong> negocios ya reservaron su lugar</p>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIAS -->
+<section id="nichos">
+  <div class="nichos-inner">
+    <div class="nichos-header reveal">
+      <div class="section-label">Industrias</div>
+      <h2 class="section-title">Diseñado para tu <em>tipo de negocio</em></h2>
+      <p class="section-sub">Auris se adapta al flujo de atención específico de cada industria.</p>
+    </div>
+    <div class="nichos-grid">
+      <div class="nicho reveal">
+        <span class="nicho-emoji">🍽️</span>
+        <div class="nicho-name">Restaurantes</div>
+        <div class="nicho-desc">Toma pedidos a domicilio y reservaciones de mesa sin que tu staff tenga que contestar el teléfono.</div>
+        <div class="nicho-features">
+          <div class="nicho-feat">Pedidos automáticos</div>
+          <div class="nicho-feat">Reservaciones de mesa</div>
+          <div class="nicho-feat">Menú actualizable</div>
+        </div>
+      </div>
+      <div class="nicho reveal">
+        <span class="nicho-emoji">🏥</span>
+        <div class="nicho-name">Clínicas</div>
+        <div class="nicho-desc">Agenda citas, responde preguntas frecuentes y filtra urgencias sin saturar a tu recepción.</div>
+        <div class="nicho-features">
+          <div class="nicho-feat">Agenda de citas</div>
+          <div class="nicho-feat">Recordatorios</div>
+          <div class="nicho-feat">Filtro de urgencias</div>
+        </div>
+      </div>
+      <div class="nicho reveal">
+        <span class="nicho-emoji">🏠</span>
+        <div class="nicho-name">Airbnb / Hospedaje</div>
+        <div class="nicho-desc">Atiende a huéspedes en cualquier idioma 24/7, responde sobre check-in y amenidades.</div>
+        <div class="nicho-features">
+          <div class="nicho-feat">Atención 24/7</div>
+          <div class="nicho-feat">Multiidioma</div>
+          <div class="nicho-feat">Info de propiedades</div>
+        </div>
+      </div>
+      <div class="nicho reveal">
+        <span class="nicho-emoji">💇</span>
+        <div class="nicho-name">Salones</div>
+        <div class="nicho-desc">Agenda citas, confirma horarios y avisa disponibilidad de estilistas sin interrumpir el servicio.</div>
+        <div class="nicho-features">
+          <div class="nicho-feat">Citas automáticas</div>
+          <div class="nicho-feat">Disponibilidad real</div>
+          <div class="nicho-feat">Recordatorios</div>
+        </div>
+      </div>
+      <div class="nicho reveal">
+        <span class="nicho-emoji">🏢</span>
+        <div class="nicho-name">Real Estate</div>
+        <div class="nicho-desc">Califica prospectos, agenda visitas y responde preguntas sobre propiedades automáticamente.</div>
+        <div class="nicho-features">
+          <div class="nicho-feat">Calificación de leads</div>
+          <div class="nicho-feat">Agenda de visitas</div>
+          <div class="nicho-feat">Info de propiedades</div>
+        </div>
+      </div>
+      <div class="nicho reveal">
+        <span class="nicho-emoji">🏨</span>
+        <div class="nicho-name">Hoteles</div>
+        <div class="nicho-desc">Gestiona reservaciones, atiende solicitudes de huéspedes y resuelve dudas las 24 horas sin saturar tu recepción.</div>
+        <div class="nicho-features">
+          <div class="nicho-feat">Reservaciones 24/7</div>
+          <div class="nicho-feat">Atención a huéspedes</div>
+          <div class="nicho-feat">Multiidioma</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="como-inner">
+    <div class="como-header reveal">
+      <div class="section-label">Cómo funciona</div>
+      <h2 class="section-title">En funcionamiento <em>en minutos</em></h2>
+      <p class="section-sub">Sin instalaciones complicadas. Sin código. Sin cambiar tu número.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num-wrap"><div class="step-num">01</div></div>
+        <h3>Conecta tu número</h3>
+        <p>Vincula tu línea telefónica existente o activa un número nuevo con Auris. Compatible con cualquier operadora.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num-wrap"><div class="step-num">02</div></div>
+        <h3>Configura tu IA</h3>
+        <p>Cuéntale a Auris sobre tu negocio — menú, servicios, precios, horarios — en lenguaje natural. Sin código.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num-wrap"><div class="step-num">03</div></div>
+        <h3>Recibe insights</h3>
+        <p>Cada llamada queda registrada con transcripción, audio y datos clave en tu dashboard en tiempo real.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNCIONES -->
+<section id="funciones">
+  <div class="feat-inner">
+    <div class="feat-header reveal">
+      <div class="section-label">Funciones</div>
+      <h2 class="section-title">Todo lo que tu negocio <em>necesita</em></h2>
+      <p class="section-sub">Auris no solo responde — entiende, registra y te ayuda a tomar mejores decisiones.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card reveal">
+        <div class="feat-icon">🎙️</div>
+        <h4>Voz natural con IA</h4>
+        <p>Responde en tiempo real con una voz cálida y natural que entiende contexto, pausas y matices del idioma.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon">🛒</div>
+        <h4>Toma de pedidos</h4>
+        <p>Captura pedidos completos con detalles, modificaciones y confirmaciones automáticas sin errores.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon">📅</div>
+        <h4>Agenda de citas</h4>
+        <p>Programa, confirma y recuerda citas automáticamente, sincronizado con tu calendario existente.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon">📊</div>
+        <h4>Dashboard inteligente</h4>
+        <p>Visualiza métricas, tendencias y oportunidades de mejora en tiempo real desde cualquier dispositivo.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon">📝</div>
+        <h4>Transcripciones y audios</h4>
+        <p>Cada llamada transcrita, etiquetada y con audio disponible al instante. Nunca pierdas un detalle.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon">🔗</div>
+        <h4>Integraciones</h4>
+        <p>Conecta con tu CRM, sistema de pedidos o WhatsApp Business para un flujo de trabajo sin fricciones.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÉTRICAS -->
+<section class="metrics">
+  <div class="metrics-inner">
+    <div class="section-label reveal">Resultados esperados</div>
+    <h2 class="section-title reveal">Números que <em>hablan</em> por sí solos</h2>
+    <p class="section-sub reveal">Basados en datos de automatización de atención telefónica en negocios similares.</p>
+    <div class="metrics-grid reveal">
+      <div class="metric-card">
+        <div class="metric-val">96%</div>
+        <div class="metric-lbl">de llamadas resueltas sin intervención humana</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">3×</div>
+        <div class="metric-lbl">más pedidos capturados en horas de alta demanda</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">-60%</div>
+        <div class="metric-lbl">en costo operativo de atención telefónica</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST BOTTOM -->
+<section id="waitlist-bottom">
+  <div class="wl-bottom-inner">
+    <div class="section-label reveal">Lista de espera</div>
+    <h2 class="section-title reveal">¿Listo para <em>nunca más</em> perder una llamada?</h2>
+    <p class="section-sub reveal">Deja tu correo y te avisamos cuando Auris esté listo. Los primeros obtienen precio especial de lanzamiento.</p>
+    <div class="wl-form-inline reveal">
+      <input type="email" id="wl-email-bottom" placeholder="tu@negocio.com" />
+      <button onclick="submitBottom()">Unirme →</button>
+    </div>
+    <p class="wl-inline-note reveal" id="bottom-note">Sin spam. Solo te avisamos cuando estemos listos.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#inicio" class="footer-logo">Auris<span>.</span></a>
+  <ul class="footer-links">
+    <li><a href="#">Privacidad</a></li>
+    <li><a href="#">Términos</a></li>
+    <li><a href="mailto:hola@auris.ai">Contacto</a></li>
+  </ul>
+  <span class="footer-copy">© 2025 Auris. Todos los derechos reservados.</span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 90);
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => revealObs.observe(el));
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  const secObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + id) link.classList.add('active');
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => secObs.observe(s));
+
+  // Contador animado
+  let count = 246;
+  function animateCount() {
+    let start = 200;
+    const el = document.getElementById('count-num');
+    const timer = setInterval(() => {
+      start += 3;
+      el.textContent = start;
+      if (start >= count) { el.textContent = count; clearInterval(timer); }
+    }, 18);
+  }
+  setTimeout(animateCount, 800);
+
+  // Validación
+  function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+  function shake(id) {
+    const el = document.getElementById(id);
+    el.style.borderColor = '#E05A5A';
+    el.style.animation = 'shake .35s ease';
+    setTimeout(() => { el.style.animation = ''; el.style.borderColor = ''; }, 400);
+    el.focus();
+  }
+
+  // Form principal
+  function submitWaitlist() {
+    const nombre  = document.getElementById('wl-nombre').value.trim();
+    const email   = document.getElementById('wl-email').value.trim();
+    const tel     = document.getElementById('wl-tel').value.trim();
+    const tipo    = document.getElementById('wl-tipo').value;
+    const negocio = document.getElementById('wl-negocio').value.trim();
+
+    if (!nombre)              { shake('wl-nombre');  return; }
+    if (!validateEmail(email)){ shake('wl-email');   return; }
+    if (!tel)                 { shake('wl-tel');     return; }
+    if (!tipo)                { shake('wl-tipo');    return; }
+    if (!negocio)             { shake('wl-negocio'); return; }
+
+    const btn = document.getElementById('wl-btn');
+    btn.textContent = 'Guardando…';
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    setTimeout(() => {
+      count++;
+      document.getElementById('pos-num').textContent = count;
+      document.getElementById('count-num').textContent = count;
+      document.getElementById('wl-form-wrap').style.display = 'none';
+      document.getElementById('wl-success').style.display = 'block';
+    }, 1400);
+  }
+
+  // Form inline bottom
+  function submitBottom() {
+    const emailEl = document.getElementById('wl-email-bottom');
+    const noteEl  = document.getElementById('bottom-note');
+    if (!validateEmail(emailEl.value.trim())) { shake('wl-email-bottom'); return; }
+    emailEl.disabled = true;
+    emailEl.value = '';
+    emailEl.placeholder = '¡Listo! Te avisamos pronto 🎉';
+    noteEl.textContent = 'Ya quedaste registrado. Gracias por tu interés en Auris.';
+    noteEl.style.color = 'var(--gold-dk)';
+  }
+
+  // Shake keyframe
+  const s = document.createElement('style');
+  s.textContent = `@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }`;
+  document.head.appendChild(s);
+</script>
+</body>
+</html>
