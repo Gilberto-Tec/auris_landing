@@ -1421,7 +1421,8 @@
       try {
         await fetch('https://hook.us2.make.com/lk1vfej64j8ytcg364ympgas1yen9hxy', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain' },
+            mode: 'no-cors',                              
           body: JSON.stringify({
             fecha: new Date().toLocaleString('es-MX'),
             nombre, email, tel, tipo, negocio
