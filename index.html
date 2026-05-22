@@ -1402,16 +1402,18 @@
     // Form principal
     async function submitWaitlist() {
       const nombre = document.getElementById('wl-nombre').value.trim();
+      const apellido = document.getElementById('wl-apellido').value.trim();
       const email = document.getElementById('wl-email').value.trim();
-      const tel = document.getElementById('wl-tel').value.trim();
-      const tipo = document.getElementById('wl-tipo').value;
-      const negocio = document.getElementById('wl-negocio').value.trim();
+      const whatsapp = document.getElementById('wl-tel').value.trim();
+      const tipoNegocio = document.getElementById('wl-tipo').value;
+      const nombreNegocio = document.getElementById('wl-negocio').value.trim();
 
       if (!nombre) { shake('wl-nombre'); return; }
+      if (!apellido) { shake('wl-apellido'); return; }
       if (!validateEmail(email)) { shake('wl-email'); return; }
-      if (!tel) { shake('wl-tel'); return; }
-      if (!tipo) { shake('wl-tipo'); return; }
-      if (!negocio) { shake('wl-negocio'); return; }
+      if (!whatsapp) { shake('wl-tel'); return; }
+      if (!tipoNegocio) { shake('wl-tipo'); return; }
+      if (!nombreNegocio) { shake('wl-negocio'); return; }
 
       const btn = document.getElementById('wl-btn');
       btn.textContent = 'Enviando…';
@@ -1421,14 +1423,19 @@
       try {
         await fetch('https://hook.us2.make.com/lk1vfej64j8ytcg364ympgas1yen9hxy', {
           method: 'POST',
-          headers: { 'Content-Type': 'text/plain' },
-            mode: 'no-cors',                              
+          headers: {
+            'Content-Type': 'application/json'
+          },
           body: JSON.stringify({
-            fecha: new Date().toLocaleString('es-MX'),
-            nombre, email, tel, tipo, negocio
+            Fecha: new Date().toLocaleString('es-MX'),
+            Nombre: nombre,
+            Apellido: apellido,
+            Email: email,
+            Whatsapp: whatsapp,
+            "Tipo de negocio": tipoNegocio,
+            "Nombre del negocio": nombreNegocio
           })
         });
-
         count++;
         document.getElementById('pos-num').textContent = count;
         document.getElementById('count-num').textContent = count;
