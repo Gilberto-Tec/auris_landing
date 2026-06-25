@@ -514,24 +514,12 @@
       line-height: 1.7;
     }
 
-    /* DEMO / VIDEO */
-    #demo {
-      padding: 100px 64px;
-      border-top: 1px solid var(--line);
-    }
-
-    .demo-inner {
-      max-width: 1000px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .demo-header {
+    /* VIDEO DEMO (hero) */
+    .hero-video {
+      width: 100%;
+      max-width: 720px;
       margin-bottom: 48px;
-    }
-
-    .demo-header .section-sub {
-      margin: 0 auto;
+      animation: fadeUp .8s .3s ease both;
     }
 
     .demo-frame {
@@ -1001,7 +989,6 @@
         display: none;
       }
 
-      #demo,
       #nichos,
       #como-funciona,
       #funciones,
@@ -1085,7 +1072,6 @@
   <nav>
     <a href="#inicio" class="nav-logo">Auris<span>.</span></a>
     <ul class="nav-links">
-      <li><a href="#demo">Demo</a></li>
       <li><a href="#nichos">Industrias</a></li>
       <li><a href="#como-funciona">Cómo funciona</a></li>
       <li><a href="#funciones">Funciones</a></li>
@@ -1109,6 +1095,16 @@
         automáticamente — sin intervención humana.</p>
       <p class="hero-note">Estamos construyendo Auris. Sé de los <strong>primeros en acceder</strong> con precio
         especial de lanzamiento.</p>
+
+      <!-- VIDEO DEMO -->
+      <div class="hero-video">
+        <div class="demo-frame">
+          <video controls preload="metadata" playsinline>
+            <source src="demo-auris.mp4" type="video/mp4" />
+            Tu navegador no soporta la reproducción de video.
+          </video>
+        </div>
+      </div>
 
       <!-- FORM -->
       <div class="waitlist-box" id="waitlist">
@@ -1171,23 +1167,6 @@
           <span>🍽️</span><span>🏥</span><span>🏠</span><span>🏨</span><span>💇</span><span>🏢</span>
         </div>
         <p class="counter-text"><strong id="count-num">246</strong> negocios ya reservaron su lugar</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- DEMO / VIDEO -->
-  <section id="demo">
-    <div class="demo-inner">
-      <div class="demo-header reveal">
-        <div class="section-label">En acción</div>
-        <h2 class="section-title">Mira a Auris <em>atender una llamada</em></h2>
-        <p class="section-sub">Así suena y responde Auris en una conversación real con un cliente.</p>
-      </div>
-      <div class="demo-frame reveal">
-        <video controls preload="metadata" playsinline>
-          <source src="demo-auris.mp4" type="video/mp4" />
-          Tu navegador no soporta la reproducción de video.
-        </video>
       </div>
     </div>
   </section>
