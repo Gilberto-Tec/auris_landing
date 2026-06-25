@@ -514,6 +514,41 @@
       line-height: 1.7;
     }
 
+    /* DEMO / VIDEO */
+    #demo {
+      padding: 100px 64px;
+      border-top: 1px solid var(--line);
+    }
+
+    .demo-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .demo-header {
+      margin-bottom: 48px;
+    }
+
+    .demo-header .section-sub {
+      margin: 0 auto;
+    }
+
+    .demo-frame {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .12), 0 2px 8px rgba(0, 0, 0, .04);
+      background: var(--ink);
+    }
+
+    .demo-frame video {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
     /* NICHOS */
     #nichos {
       padding: 100px 64px;
@@ -966,6 +1001,7 @@
         display: none;
       }
 
+      #demo,
       #nichos,
       #como-funciona,
       #funciones,
@@ -1049,6 +1085,7 @@
   <nav>
     <a href="#inicio" class="nav-logo">Auris<span>.</span></a>
     <ul class="nav-links">
+      <li><a href="#demo">Demo</a></li>
       <li><a href="#nichos">Industrias</a></li>
       <li><a href="#como-funciona">Cómo funciona</a></li>
       <li><a href="#funciones">Funciones</a></li>
@@ -1134,6 +1171,23 @@
           <span>🍽️</span><span>🏥</span><span>🏠</span><span>🏨</span><span>💇</span><span>🏢</span>
         </div>
         <p class="counter-text"><strong id="count-num">246</strong> negocios ya reservaron su lugar</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO / VIDEO -->
+  <section id="demo">
+    <div class="demo-inner">
+      <div class="demo-header reveal">
+        <div class="section-label">En acción</div>
+        <h2 class="section-title">Mira a Auris <em>atender una llamada</em></h2>
+        <p class="section-sub">Así suena y responde Auris en una conversación real con un cliente.</p>
+      </div>
+      <div class="demo-frame reveal">
+        <video controls preload="metadata" playsinline>
+          <source src="demo-auris.mp4" type="video/mp4" />
+          Tu navegador no soporta la reproducción de video.
+        </video>
       </div>
     </div>
   </section>
