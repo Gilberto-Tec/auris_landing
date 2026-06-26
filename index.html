@@ -907,6 +907,26 @@
       transform: translateY(-1px);
     }
 
+    .wl-bottom-cta {
+      display: inline-block;
+      background: var(--ink);
+      color: #fff;
+      padding: 15px 44px;
+      border-radius: 100px;
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, .18);
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+
+    .wl-bottom-cta:hover {
+      background: #222;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .22);
+    }
+
     .wl-inline-note {
       font-size: 12px;
       color: var(--ink3);
@@ -1358,13 +1378,10 @@
     <div class="wl-bottom-inner">
       <div class="section-label reveal">Lista de espera</div>
       <h2 class="section-title reveal">¿Listo para <em>nunca más</em> perder una llamada?</h2>
-      <p class="section-sub reveal">Deja tu correo y te avisamos cuando Auris esté listo. Los primeros obtienen precio
-        especial de lanzamiento.</p>
-      <div class="wl-form-inline reveal">
-        <input type="email" id="wl-email-bottom" placeholder="tu@negocio.com" />
-        <button onclick="submitBottom()">Unirme →</button>
-      </div>
-      <p class="wl-inline-note reveal" id="bottom-note">Sin spam. Solo te avisamos cuando estemos listos.</p>
+      <p class="section-sub reveal">Deja tus datos necesarios y te avisamos cuando Auris esté listo. Los primeros
+        obtienen precio especial de lanzamiento.</p>
+      <a href="#waitlist" class="wl-bottom-cta reveal">Unirme →</a>
+      <p class="wl-inline-note reveal">Sin spam. Solo te avisamos cuando estemos listos.</p>
     </div>
   </section>
 
@@ -1482,18 +1499,6 @@
         alert('Hubo un error, intenta de nuevo.');
       }
     }
-    // Form inline bottom
-    function submitBottom() {
-      const emailEl = document.getElementById('wl-email-bottom');
-      const noteEl = document.getElementById('bottom-note');
-      if (!validateEmail(emailEl.value.trim())) { shake('wl-email-bottom'); return; }
-      emailEl.disabled = true;
-      emailEl.value = '';
-      emailEl.placeholder = '¡Listo! Te avisamos pronto 🎉';
-      noteEl.textContent = 'Ya quedaste registrado. Gracias por tu interés en Auris.';
-      noteEl.style.color = 'var(--gold-dk)';
-    }
-
     // Shake keyframe
     const s = document.createElement('style');
     s.textContent = `@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }`;
