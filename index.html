@@ -1180,15 +1180,7 @@
           <div class="success-icon">✓</div>
           <h4>¡Ya estás en la lista!</h4>
           <p>Te avisaremos en cuanto Auris esté listo. Eres parte de los primeros.</p>
-          <div class="success-position">Lugar #<span id="pos-num">247</span> en la lista</div>
         </div>
-      </div>
-
-      <div class="counter-row">
-        <div class="counter-avatars">
-          <span>🍽️</span><span>🏥</span><span>🏠</span><span>🏨</span><span>💇</span><span>🏢</span>
-        </div>
-        <p class="counter-text"><strong id="count-num">246</strong> negocios ya reservaron su lugar</p>
       </div>
     </div>
   </section>
@@ -1427,19 +1419,6 @@
     }, { rootMargin: '-30% 0px -60% 0px' });
     sections.forEach(s => secObs.observe(s));
 
-    // Contador animado
-    let count = 246;
-    function animateCount() {
-      let start = 200;
-      const el = document.getElementById('count-num');
-      const timer = setInterval(() => {
-        start += 3;
-        el.textContent = start;
-        if (start >= count) { el.textContent = count; clearInterval(timer); }
-      }, 18);
-    }
-    setTimeout(animateCount, 800);
-
     // Validación
     function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
@@ -1488,9 +1467,6 @@
             "Nombre del negocio": nombreNegocio
           })
         });
-        count++;
-        document.getElementById('pos-num').textContent = count;
-        document.getElementById('count-num').textContent = count;
         document.getElementById('wl-form-wrap').style.display = 'none';
         document.getElementById('wl-success').style.display = 'block';
 
