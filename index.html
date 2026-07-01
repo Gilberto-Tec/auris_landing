@@ -626,12 +626,29 @@
 
   // ===== Panel de producto (scroll-driven) =====
   (function setupProductTabs() {
+    const track = document.getElementById('au-prod-track');
     const btns = [...document.querySelectorAll('[data-prod-tab]')];
     const shot = document.getElementById('au-prod-shot');
     const url = document.getElementById('au-prod-url');
-    if (!btns.length || !shot) return;
+    if (!track || !btns.length || !shot) return;
     const frame = shot.closest('[data-reveal]');
     if (frame) { frame.style.opacity = '1'; frame.style.transform = 'none'; }
+
+    // position:sticky se desactiva cuando un ancestro que NO hace scroll establece un
+    // contenedor de scroll vía overflow (auto/scroll/hidden) — p.ej. el wrapper con
+    // overflow-x:hidden. Neutralizamos esos ancestros para que el sticky siga al scroll.
+    (function () {
+      let a = track.parentElement;
+      const clip = /(auto|scroll|hidden)/;
+      while (a && a !== document.body && a !== document.documentElement) {
+        const cs = getComputedStyle(a);
+        const notScrolling = a.scrollHeight <= a.clientHeight + 2;
+        if (notScrolling && (clip.test(cs.overflowY) || clip.test(cs.overflowX))) {
+          a.style.overflow = 'visible';
+        }
+        a = a.parentElement;
+      }
+    })();
     let current = -1;
     let prodT;
     const apply = (idx) => {
