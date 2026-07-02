@@ -216,6 +216,57 @@
     </div>
   </section>
 
+  <!-- PRODUCTO / PANEL -->
+  <section id="producto" style="padding:108px 40px; background:#FFFFFF; border-top:1px solid rgba(10,10,10,0.06); scroll-margin-top:80px;">
+    <div style="max-width:1180px; margin:0 auto;">
+      <div data-reveal style="text-align:center; max-width:700px; margin:0 auto 52px; opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease;">
+        <div data-i18n="prod.label" style="font-family:'Space Mono',monospace; font-size:12px; color:#3A3A36; letter-spacing:0.16em; text-transform:uppercase; display:inline-block; padding:6px 14px; border:1px solid rgba(10,10,10,0.10); border-radius:100px; background:rgba(10,10,10,0.03); margin-bottom:18px;">El producto</div>
+        <h2 data-i18n="prod.title" style="font-weight:600; font-size:clamp(34px,4.6vw,58px); line-height:1.02; letter-spacing:-0.04em; color:#0A0A0A; margin-bottom:16px;">Todo tu negocio en un solo panel</h2>
+        <p data-i18n="prod.sub" style="font-size:17px; font-weight:400; color:#5B5B57; line-height:1.6;">Auris no es solo una voz — es un panel completo para ver, medir y controlar cada llamada en tiempo real.</p>
+      </div>
+
+      <div id="au-prod-track" class="au-prod-track" style="position:relative; height:300vh;">
+       <div data-prod-sentinel="0" style="position:absolute; left:0; right:0; top:0%; height:25%; pointer-events:none;"></div>
+       <div data-prod-sentinel="1" style="position:absolute; left:0; right:0; top:25%; height:25%; pointer-events:none;"></div>
+       <div data-prod-sentinel="2" style="position:absolute; left:0; right:0; top:50%; height:25%; pointer-events:none;"></div>
+       <div data-prod-sentinel="3" style="position:absolute; left:0; right:0; top:75%; height:25%; pointer-events:none;"></div>
+       <div id="au-step-0" style="position:absolute; left:0; top:12.5%; width:1px; height:1px; scroll-margin-top:50vh; pointer-events:none;"></div>
+       <div id="au-step-1" style="position:absolute; left:0; top:37.5%; width:1px; height:1px; scroll-margin-top:50vh; pointer-events:none;"></div>
+       <div id="au-step-2" style="position:absolute; left:0; top:62.5%; width:1px; height:1px; scroll-margin-top:50vh; pointer-events:none;"></div>
+       <div id="au-step-3" style="position:absolute; left:0; top:87.5%; width:1px; height:1px; scroll-margin-top:50vh; pointer-events:none;"></div>
+       <div id="au-prod-stage" class="au-prod-stage" style="position:sticky; top:80px; display:flex; align-items:center; min-height:calc(100vh - 120px);">
+      <div class="au-grid2" style="width:100%; display:grid; grid-template-columns:0.92fr 1.35fr; gap:40px; align-items:center;">
+        <!-- TAB LIST -->
+        <div id="au-prod-tablist" style="display:flex; flex-direction:column; gap:10px;">
+          <!-- PRODUCT_TABS -->
+        </div>
+
+        <!-- BROWSER FRAME -->
+        <div data-reveal style="opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease;">
+          <div class="au-grain" style="position:relative; overflow:hidden; border-radius:24px; padding:clamp(14px,2vw,28px); background:radial-gradient(70% 90% at 14% 20%, #2F7D9C 0%, transparent 58%), radial-gradient(80% 90% at 88% 35%, #1C6E8E 0%, transparent 58%), radial-gradient(90% 100% at 55% 105%, #F4EFCB 0%, transparent 60%), linear-gradient(135deg,#3E8FAE,#3E8FAE); box-shadow:0 34px 90px rgba(28,110,142,0.3);">
+          <div style="position:relative; z-index:1; border-radius:14px; overflow:hidden; border:1px solid rgba(10,10,10,0.1); box-shadow:0 18px 50px rgba(0,0,0,0.2); background:#fff;">
+            <div style="display:flex; align-items:center; gap:7px; padding:11px 16px; background:#F1F1EF; border-bottom:1px solid rgba(10,10,10,0.07);">
+              <span style="width:11px; height:11px; border-radius:50%; background:#E5675C;"></span>
+              <span style="width:11px; height:11px; border-radius:50%; background:#E6B34D;"></span>
+              <span style="width:11px; height:11px; border-radius:50%; background:#3E8FAE;"></span>
+              <div id="au-prod-url" style="margin-left:12px; flex:1; max-width:340px; background:#fff; border:1px solid rgba(10,10,10,0.08); border-radius:7px; padding:5px 12px; font-family:'Space Mono',monospace; font-size:11px; color:#9A9A92; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">app.auris.ai/dashboard</div>
+            </div>
+            <img id="au-prod-shot" src="dash.jpeg" alt="Panel de Auris" style="display:block; width:100%; height:auto; transition:opacity .28s ease;" />
+          </div>
+          </div>
+        </div>
+      </div>
+       </div>
+      </div>
+      <div data-reveal style="text-align:center; margin-top:36px; opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease;">
+        <span style="display:inline-flex; align-items:center; gap:9px; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#5B5B57; background:#fff; border:1px solid rgba(10,10,10,0.1); padding:9px 18px; border-radius:100px;">
+          <span style="width:6px; height:6px; border-radius:50%; background:#3A3A36;"></span>
+          <span data-i18n="prod.note">Este es un ejemplo de Auris para llamadas de pedidos</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
   <!-- METRICAS -->
   <section id="metricas" style="padding:108px 40px; background:#FFFFFF; border-top:1px solid rgba(10,10,10,0.06); scroll-margin-top:80px;">
     <div style="max-width:1100px; margin:0 auto; text-align:center;">
@@ -280,57 +331,6 @@
           <h4 data-i18n="f6.title" style="font-size:16px; font-weight:600; color:#0A0A0A; margin-bottom:9px;">Integraciones</h4>
           <p data-i18n="f6.desc" style="font-size:14px; color:#5B5B57; line-height:1.6;">Conecta con tu CRM, sistema de pedidos o WhatsApp Business para un flujo sin fricciones.</p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRODUCTO / PANEL -->
-  <section id="producto" style="padding:108px 40px; background:#FAFAF8; border-top:1px solid rgba(10,10,10,0.06); scroll-margin-top:80px;">
-    <div style="max-width:1180px; margin:0 auto;">
-      <div data-reveal style="text-align:center; max-width:700px; margin:0 auto 52px; opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease;">
-        <div data-i18n="prod.label" style="font-family:'Space Mono',monospace; font-size:12px; color:#3A3A36; letter-spacing:0.16em; text-transform:uppercase; display:inline-block; padding:6px 14px; border:1px solid rgba(10,10,10,0.10); border-radius:100px; background:rgba(10,10,10,0.03); margin-bottom:18px;">El producto</div>
-        <h2 data-i18n="prod.title" style="font-weight:600; font-size:clamp(34px,4.6vw,58px); line-height:1.02; letter-spacing:-0.04em; color:#0A0A0A; margin-bottom:16px;">Todo tu negocio en un solo panel</h2>
-        <p data-i18n="prod.sub" style="font-size:17px; font-weight:400; color:#5B5B57; line-height:1.6;">Auris no es solo una voz — es un panel completo para ver, medir y controlar cada llamada en tiempo real.</p>
-      </div>
-
-      <div id="au-prod-track" class="au-prod-track" style="position:relative; height:300vh;">
-       <div data-prod-sentinel="0" style="position:absolute; left:0; right:0; top:0%; height:25%; pointer-events:none;"></div>
-       <div data-prod-sentinel="1" style="position:absolute; left:0; right:0; top:25%; height:25%; pointer-events:none;"></div>
-       <div data-prod-sentinel="2" style="position:absolute; left:0; right:0; top:50%; height:25%; pointer-events:none;"></div>
-       <div data-prod-sentinel="3" style="position:absolute; left:0; right:0; top:75%; height:25%; pointer-events:none;"></div>
-       <div id="au-step-0" style="position:absolute; left:0; top:12.5%; width:1px; height:1px; scroll-margin-top:50vh; pointer-events:none;"></div>
-       <div id="au-step-1" style="position:absolute; left:0; top:37.5%; width:1px; height:1px; scroll-margin-top:50vh; pointer-events:none;"></div>
-       <div id="au-step-2" style="position:absolute; left:0; top:62.5%; width:1px; height:1px; scroll-margin-top:50vh; pointer-events:none;"></div>
-       <div id="au-step-3" style="position:absolute; left:0; top:87.5%; width:1px; height:1px; scroll-margin-top:50vh; pointer-events:none;"></div>
-       <div id="au-prod-stage" class="au-prod-stage" style="position:sticky; top:80px; display:flex; align-items:center; min-height:calc(100vh - 120px);">
-      <div class="au-grid2" style="width:100%; display:grid; grid-template-columns:0.92fr 1.35fr; gap:40px; align-items:center;">
-        <!-- TAB LIST -->
-        <div id="au-prod-tablist" style="display:flex; flex-direction:column; gap:10px;">
-          <!-- PRODUCT_TABS -->
-        </div>
-
-        <!-- BROWSER FRAME -->
-        <div data-reveal style="opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease;">
-          <div class="au-grain" style="position:relative; overflow:hidden; border-radius:24px; padding:clamp(14px,2vw,28px); background:radial-gradient(70% 90% at 14% 20%, #2F7D9C 0%, transparent 58%), radial-gradient(80% 90% at 88% 35%, #1C6E8E 0%, transparent 58%), radial-gradient(90% 100% at 55% 105%, #F4EFCB 0%, transparent 60%), linear-gradient(135deg,#3E8FAE,#3E8FAE); box-shadow:0 34px 90px rgba(28,110,142,0.3);">
-          <div style="position:relative; z-index:1; border-radius:14px; overflow:hidden; border:1px solid rgba(10,10,10,0.1); box-shadow:0 18px 50px rgba(0,0,0,0.2); background:#fff;">
-            <div style="display:flex; align-items:center; gap:7px; padding:11px 16px; background:#F1F1EF; border-bottom:1px solid rgba(10,10,10,0.07);">
-              <span style="width:11px; height:11px; border-radius:50%; background:#E5675C;"></span>
-              <span style="width:11px; height:11px; border-radius:50%; background:#E6B34D;"></span>
-              <span style="width:11px; height:11px; border-radius:50%; background:#3E8FAE;"></span>
-              <div id="au-prod-url" style="margin-left:12px; flex:1; max-width:340px; background:#fff; border:1px solid rgba(10,10,10,0.08); border-radius:7px; padding:5px 12px; font-family:'Space Mono',monospace; font-size:11px; color:#9A9A92; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">app.auris.ai/dashboard</div>
-            </div>
-            <img id="au-prod-shot" src="dash.jpeg" alt="Panel de Auris" style="display:block; width:100%; height:auto; transition:opacity .28s ease;" />
-          </div>
-          </div>
-        </div>
-      </div>
-       </div>
-      </div>
-      <div data-reveal style="text-align:center; margin-top:36px; opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease;">
-        <span style="display:inline-flex; align-items:center; gap:9px; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#5B5B57; background:#fff; border:1px solid rgba(10,10,10,0.1); padding:9px 18px; border-radius:100px;">
-          <span style="width:6px; height:6px; border-radius:50%; background:#3A3A36;"></span>
-          <span data-i18n="prod.note">Este es un ejemplo de Auris para llamadas de pedidos</span>
-        </span>
       </div>
     </div>
   </section>
