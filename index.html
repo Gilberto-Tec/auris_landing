@@ -13,7 +13,7 @@
   <style>
     *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
     html { scroll-behavior:smooth; }
-    body { background:#FFFFFF; }
+    body { background:#FFFFFF; overflow-x:hidden; }
     @keyframes au-blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(1.6)} }
     @keyframes au-shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
     @keyframes au-pop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
@@ -32,7 +32,8 @@
     .au-lang:hover { border-color:rgba(10,10,10,0.28); background:rgba(10,10,10,0.04); }
 
     /* ===== NAV flotante tipo isla (se encoge al hacer scroll y queda fija arriba) ===== */
-    .au-navwrap { position:sticky; top:0; z-index:200; display:flex; justify-content:center; padding:14px 24px; pointer-events:none; }
+    /* fixed (no sticky): un ancestro tiene overflow-x:hidden y rompe el sticky en móvil */
+    .au-navwrap { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify-content:center; padding:14px 24px; pointer-events:none; }
     .au-nav {
       pointer-events:auto; position:relative; width:100%; max-width:1320px;
       display:flex; align-items:center; justify-content:space-between; gap:24px;
@@ -75,6 +76,7 @@
 
     @media (max-width:860px) {
       .au-navwrap { padding:10px 14px; }
+      #inicio { padding-top:132px !important; }
       .au-nav { max-width:none; padding:8px 8px 8px 12px; gap:10px; }
       .au-nav.is-float { max-width:none; }
       .au-menu { display:flex; }
@@ -148,7 +150,7 @@
   </div>
 
   <!-- HERO -->
-  <section id="inicio" style="position:relative; overflow:hidden; padding:72px 24px 76px;">
+  <section id="inicio" style="position:relative; overflow:hidden; padding:158px 24px 76px;">
     <div style="position:absolute; width:680px; height:680px; top:-220px; left:-180px; z-index:0; border-radius:50%; filter:blur(20px); opacity:0.5; background:radial-gradient(circle at 40% 40%, #6FB6CE 0%, transparent 62%), radial-gradient(circle at 70% 60%, #1C6E8E 0%, transparent 60%); animation:au-float 12s ease-in-out infinite; pointer-events:none;"></div>
     <div style="position:absolute; width:560px; height:560px; top:-120px; right:-160px; z-index:0; border-radius:50%; filter:blur(20px); opacity:0.42; background:radial-gradient(circle at 50% 50%, #6FB6CE 0%, transparent 62%), radial-gradient(circle at 30% 70%, #F4EFCB 0%, transparent 60%); animation:au-float 14s ease-in-out infinite reverse; pointer-events:none;"></div>
 
