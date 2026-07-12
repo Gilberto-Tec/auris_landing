@@ -32,15 +32,22 @@
     .au-lang:hover { border-color:rgba(10,10,10,0.28); background:rgba(10,10,10,0.04); }
 
     /* ===== NAV flotante tipo isla (se encoge al hacer scroll y queda fija arriba) ===== */
-    /* fixed (no sticky): un ancestro tiene overflow-x:hidden y rompe el sticky en móvil */
-    .au-navwrap { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify-content:center; padding:14px 24px; pointer-events:none; }
+    /* fixed (no sticky): el contenedor de la página tiene overflow-x:hidden y rompe el sticky en móvil.
+       Vive como hijo directo de <body> y se promueve a su propia capa para que no se despegue
+       cuando el navegador móvil colapsa su barra de direcciones. */
+    .au-navwrap {
+      position:fixed; top:0; left:0; right:0; z-index:200;
+      display:flex; justify-content:center; padding:14px 24px; pointer-events:none;
+      font-family:'Geist',system-ui,sans-serif; color:#0A0A0A; line-height:1.6;
+      -webkit-transform:translateZ(0); transform:translateZ(0);
+    }
     .au-nav {
       pointer-events:auto; position:relative; width:100%; max-width:1320px;
       display:flex; align-items:center; justify-content:space-between; gap:24px;
       padding:9px 10px 9px 16px; border-radius:18px;
       background:rgba(255,255,255,0); border:1px solid rgba(10,10,10,0); box-shadow:0 0 0 rgba(10,10,10,0);
       transition:max-width .55s cubic-bezier(.4,0,.2,1), padding .45s cubic-bezier(.4,0,.2,1),
-                 background-color .35s ease, border-color .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;
+                 background-color .35s ease, border-color .35s ease, box-shadow .35s ease;
     }
     .au-navlinks a, .au-nav-actions a, .au-nav-actions button { white-space:nowrap; }
     .au-nav.is-float {
@@ -105,9 +112,7 @@
 
 <body>
 
-<div style="background:#FFFFFF; color:#0A0A0A; font-family:'Geist',system-ui,sans-serif; font-size:16px; line-height:1.6; overflow-x:hidden; min-height:100vh;">
-
-  <!-- NAV -->
+  <!-- NAV (hijo directo de body: ningún ancestro puede romper el position:fixed) -->
   <div class="au-navwrap">
     <nav id="au-nav" class="au-nav">
       <a href="#inicio" class="au-nav-logo">
@@ -148,6 +153,8 @@
       </div>
     </nav>
   </div>
+
+<div style="background:#FFFFFF; color:#0A0A0A; font-family:'Geist',system-ui,sans-serif; font-size:16px; line-height:1.6; overflow-x:hidden; min-height:100vh;">
 
   <!-- HERO -->
   <section id="inicio" style="position:relative; overflow:hidden; padding:158px 24px 76px;">
