@@ -30,8 +30,56 @@
     .au-btn-ghost:hover { background:rgba(10,10,10,0.06); border-color:rgba(10,10,10,0.18); transform:translateY(-1px); }
     .au-lang { cursor:pointer; user-select:none; transition:border-color .2s, background .2s; }
     .au-lang:hover { border-color:rgba(10,10,10,0.28); background:rgba(10,10,10,0.04); }
+
+    /* ===== NAV flotante tipo isla (se encoge al hacer scroll y queda fija arriba) ===== */
+    .au-navwrap { position:sticky; top:0; z-index:200; display:flex; justify-content:center; padding:14px 24px; pointer-events:none; }
+    .au-nav {
+      pointer-events:auto; position:relative; width:100%; max-width:1320px;
+      display:flex; align-items:center; justify-content:space-between; gap:24px;
+      padding:9px 10px 9px 16px; border-radius:18px;
+      background:rgba(255,255,255,0); border:1px solid rgba(10,10,10,0); box-shadow:0 0 0 rgba(10,10,10,0);
+      transition:max-width .55s cubic-bezier(.4,0,.2,1), padding .45s cubic-bezier(.4,0,.2,1),
+                 background-color .35s ease, border-color .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;
+    }
+    .au-navlinks a, .au-nav-actions a, .au-nav-actions button { white-space:nowrap; }
+    .au-nav.is-float {
+      max-width:1060px; padding:8px 8px 8px 14px;
+      background:rgba(255,255,255,0.72);
+      backdrop-filter:blur(22px) saturate(1.5); -webkit-backdrop-filter:blur(22px) saturate(1.5);
+      border-color:rgba(10,10,10,0.08);
+      box-shadow:0 8px 32px rgba(10,10,10,0.10), inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+    .au-nav-logo { display:flex; align-items:center; gap:9px; text-decoration:none; flex-shrink:0; }
+    .au-nav-logo img { width:42px; height:42px; object-fit:contain; transition:width .45s cubic-bezier(.4,0,.2,1), height .45s cubic-bezier(.4,0,.2,1); }
+    .au-nav-logo span { transition:font-size .45s cubic-bezier(.4,0,.2,1); }
+    .au-nav.is-float .au-nav-logo img { width:32px; height:32px; }
+    .au-nav.is-float .au-nav-logo span { font-size:23px !important; }
+    .au-nav.is-float .au-navlinks { gap:26px !important; }
+    .au-nav-actions { display:flex; align-items:center; gap:12px; }
+    .au-burger { display:none; width:40px; height:40px; flex-shrink:0; align-items:center; justify-content:center; gap:5px; flex-direction:column; border:1px solid rgba(10,10,10,0.10); background:rgba(10,10,10,0.03); border-radius:12px; cursor:pointer; padding:0; }
+    .au-burger span { display:block; width:17px; height:1.8px; border-radius:2px; background:#0A0A0A; transition:transform .3s ease, opacity .25s ease; }
+    .au-burger.open span:nth-child(1) { transform:translateY(3.4px) rotate(45deg); }
+    .au-burger.open span:nth-child(2) { transform:translateY(-3.4px) rotate(-45deg); }
+    .au-menu {
+      position:absolute; top:calc(100% + 10px); left:0; right:0; display:none; flex-direction:column; gap:2px;
+      padding:14px; border-radius:20px; background:rgba(255,255,255,0.97);
+      backdrop-filter:blur(22px) saturate(1.5); -webkit-backdrop-filter:blur(22px) saturate(1.5);
+      border:1px solid rgba(10,10,10,0.08); box-shadow:0 22px 60px rgba(10,10,10,0.16);
+      opacity:0; transform:translateY(-10px); pointer-events:none;
+      transition:opacity .28s ease, transform .28s cubic-bezier(.4,0,.2,1);
+    }
+    .au-menu.open { opacity:1; transform:translateY(0); pointer-events:auto; }
+    .au-menu a[data-menu-link] { padding:13px 12px; border-radius:12px; font-size:16px; font-weight:500; color:#0A0A0A; text-decoration:none; transition:background .2s ease; }
+    .au-menu a[data-menu-link]:hover { background:rgba(10,10,10,0.05); }
+    .au-menu-foot { display:flex; align-items:center; gap:10px; margin-top:10px; padding-top:14px; border-top:1px solid rgba(10,10,10,0.08); }
+
     @media (max-width:860px) {
-      nav { padding:10px 20px !important; }
+      .au-navwrap { padding:10px 14px; }
+      .au-nav { max-width:none; padding:8px 8px 8px 12px; gap:10px; }
+      .au-nav.is-float { max-width:none; }
+      .au-menu { display:flex; }
+      .au-burger { display:flex; }
+      .au-nav-actions .au-lang, .au-nav-actions .au-btn-ghost { display:none !important; }
       .au-navlinks { display:none !important; }
       section { padding-left:22px !important; padding-right:22px !important; padding-top:68px !important; padding-bottom:68px !important; }
       footer { padding:36px 22px !important; }
@@ -58,29 +106,49 @@
 <div style="background:#FFFFFF; color:#0A0A0A; font-family:'Geist',system-ui,sans-serif; font-size:16px; line-height:1.6; overflow-x:hidden; min-height:100vh;">
 
   <!-- NAV -->
-  <nav style="position:sticky; top:0; z-index:200; display:flex; align-items:center; justify-content:space-between; padding:12px 40px; background:rgba(255,255,255,0.78); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-bottom:1px solid rgba(10,10,10,0.06);">
-    <a href="#inicio" style="display:flex; align-items:center; gap:9px; text-decoration:none;">
-      <img src="auris_logo_t.png" alt="Auris" style="width:42px; height:42px; object-fit:contain;" />
-      <span style="font-weight:600; font-size:27px; letter-spacing:-0.04em; color:#0A0A0A;">auris</span>
-    </a>
-    <ul class="au-navlinks" style="display:flex; gap:36px; list-style:none; align-items:center;">
-      <li><a href="#nichos" data-i18n="nav.industries" style="font-size:14px; font-weight:500; color:#5B5B57; text-decoration:none;">Industrias</a></li>
-      <li><a href="#como" data-i18n="nav.how" style="font-size:14px; font-weight:500; color:#5B5B57; text-decoration:none;">Cómo funciona</a></li>
-      <li><a href="#funciones" data-i18n="nav.features" style="font-size:14px; font-weight:500; color:#5B5B57; text-decoration:none;">Funciones</a></li>
-      <li><a href="#producto" data-i18n="nav.product" style="font-size:14px; font-weight:500; color:#5B5B57; text-decoration:none;">Producto</a></li>
-      <li><a href="#metricas" data-i18n="nav.results" style="font-size:14px; font-weight:500; color:#5B5B57; text-decoration:none;">Resultados</a></li>
-    </ul>
-    <div style="display:flex; align-items:center; gap:12px;">
-      <button id="lang-toggle" type="button" class="au-lang" aria-label="Cambiar idioma" style="display:inline-flex; align-items:center; gap:6px; border:1px solid rgba(10,10,10,0.1); border-radius:100px; padding:7px 13px; font-size:12px; font-weight:600; color:#5B5B57; background:transparent; font-family:'Geist',sans-serif;">
-        <span style="width:6px; height:6px; border-radius:50%; background:#3A3A36;"></span><span id="lang-label">ES</span>
-      </button>
-      <a href="https://app.auris.business/login" class="au-btn-ghost" data-i18n="nav.login" style="display:inline-flex; align-items:center; background:rgba(10,10,10,0.03); border:1px solid rgba(10,10,10,0.10); color:#0A0A0A; padding:10px 20px; border-radius:100px; font-size:13px; font-weight:600; text-decoration:none; font-family:'Geist',sans-serif;">Iniciar sesión</a>
-      <a href="#waitlist" class="au-cta" data-i18n="nav.cta" style="background:#0A0A0A; color:#fff; padding:11px 22px; border-radius:100px; font-size:13px; font-weight:600; text-decoration:none;">Agendar demo</a>
-    </div>
-  </nav>
+  <div class="au-navwrap">
+    <nav id="au-nav" class="au-nav">
+      <a href="#inicio" class="au-nav-logo">
+        <img src="auris_logo_t.png" alt="Auris" />
+        <span style="font-weight:600; font-size:27px; letter-spacing:-0.04em; color:#0A0A0A;">auris</span>
+      </a>
+      <ul class="au-navlinks" style="display:flex; gap:36px; list-style:none; align-items:center;">
+        <li><a href="#nichos" data-i18n="nav.industries" style="font-size:14px; font-weight:500; color:#5B5B57; text-decoration:none;">Industrias</a></li>
+        <li><a href="#como" data-i18n="nav.how" style="font-size:14px; font-weight:500; color:#5B5B57; text-decoration:none;">Cómo funciona</a></li>
+        <li><a href="#funciones" data-i18n="nav.features" style="font-size:14px; font-weight:500; color:#5B5B57; text-decoration:none;">Funciones</a></li>
+        <li><a href="#producto" data-i18n="nav.product" style="font-size:14px; font-weight:500; color:#5B5B57; text-decoration:none;">Producto</a></li>
+        <li><a href="#metricas" data-i18n="nav.results" style="font-size:14px; font-weight:500; color:#5B5B57; text-decoration:none;">Resultados</a></li>
+      </ul>
+      <div class="au-nav-actions">
+        <button id="lang-toggle" type="button" class="au-lang" aria-label="Cambiar idioma" style="display:inline-flex; align-items:center; gap:6px; border:1px solid rgba(10,10,10,0.1); border-radius:100px; padding:7px 13px; font-size:12px; font-weight:600; color:#5B5B57; background:transparent; font-family:'Geist',sans-serif;">
+          <span style="width:6px; height:6px; border-radius:50%; background:#3A3A36;"></span><span id="lang-label">ES</span>
+        </button>
+        <a href="https://app.auris.business/login" class="au-btn-ghost" data-i18n="nav.login" style="display:inline-flex; align-items:center; background:rgba(10,10,10,0.03); border:1px solid rgba(10,10,10,0.10); color:#0A0A0A; padding:10px 20px; border-radius:100px; font-size:13px; font-weight:600; text-decoration:none; font-family:'Geist',sans-serif;">Iniciar sesión</a>
+        <a href="#waitlist" class="au-cta" data-i18n="nav.cta" style="background:#0A0A0A; color:#fff; padding:11px 22px; border-radius:100px; font-size:13px; font-weight:600; text-decoration:none;">Agendar demo</a>
+        <button id="au-burger" type="button" class="au-burger" aria-label="Menú" aria-expanded="false" aria-controls="au-menu">
+          <span></span><span></span>
+        </button>
+      </div>
+
+      <!-- MENU MOVIL -->
+      <div id="au-menu" class="au-menu">
+        <a href="#nichos" data-menu-link data-i18n="nav.industries">Industrias</a>
+        <a href="#como" data-menu-link data-i18n="nav.how">Cómo funciona</a>
+        <a href="#funciones" data-menu-link data-i18n="nav.features">Funciones</a>
+        <a href="#producto" data-menu-link data-i18n="nav.product">Producto</a>
+        <a href="#metricas" data-menu-link data-i18n="nav.results">Resultados</a>
+        <div class="au-menu-foot">
+          <button id="lang-toggle-m" type="button" class="au-lang" aria-label="Cambiar idioma" style="display:inline-flex; align-items:center; gap:6px; border:1px solid rgba(10,10,10,0.1); border-radius:100px; padding:10px 14px; font-size:12px; font-weight:600; color:#5B5B57; background:transparent; font-family:'Geist',sans-serif;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#3A3A36;"></span><span id="lang-label-m">ES</span>
+          </button>
+          <a href="https://app.auris.business/login" data-i18n="nav.login" style="flex:1; display:inline-flex; align-items:center; justify-content:center; background:rgba(10,10,10,0.03); border:1px solid rgba(10,10,10,0.10); color:#0A0A0A; padding:11px 16px; border-radius:100px; font-size:13px; font-weight:600; text-decoration:none;">Iniciar sesión</a>
+        </div>
+      </div>
+    </nav>
+  </div>
 
   <!-- HERO -->
-  <section id="inicio" style="position:relative; overflow:hidden; padding:104px 24px 76px;">
+  <section id="inicio" style="position:relative; overflow:hidden; padding:72px 24px 76px;">
     <div style="position:absolute; width:680px; height:680px; top:-220px; left:-180px; z-index:0; border-radius:50%; filter:blur(20px); opacity:0.5; background:radial-gradient(circle at 40% 40%, #6FB6CE 0%, transparent 62%), radial-gradient(circle at 70% 60%, #1C6E8E 0%, transparent 60%); animation:au-float 12s ease-in-out infinite; pointer-events:none;"></div>
     <div style="position:absolute; width:560px; height:560px; top:-120px; right:-160px; z-index:0; border-radius:50%; filter:blur(20px); opacity:0.42; background:radial-gradient(circle at 50% 50%, #6FB6CE 0%, transparent 62%), radial-gradient(circle at 30% 70%, #F4EFCB 0%, transparent 60%); animation:au-float 14s ease-in-out infinite reverse; pointer-events:none;"></div>
 
@@ -168,7 +236,7 @@
   </section>
 
   <!-- INDUSTRIAS -->
-  <section id="nichos" style="padding:108px 40px; scroll-margin-top:80px;">
+  <section id="nichos" style="padding:108px 40px; scroll-margin-top:100px;">
     <div style="max-width:1140px; margin:0 auto;">
       <div data-reveal style="text-align:center; max-width:660px; margin:0 auto 56px; opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease;">
         <div data-i18n="ind.label" style="font-family:'Space Mono',monospace; font-size:12px; color:#3A3A36; letter-spacing:0.16em; text-transform:uppercase; display:inline-block; padding:6px 14px; border:1px solid rgba(10,10,10,0.10); border-radius:100px; background:rgba(10,10,10,0.03); margin-bottom:18px;">Industrias</div>
@@ -184,7 +252,7 @@
   </section>
 
   <!-- COMO FUNCIONA -->
-  <section id="como" style="padding:108px 40px; background:#FAFAF8; border-top:1px solid rgba(10,10,10,0.06); scroll-margin-top:80px;">
+  <section id="como" style="padding:108px 40px; background:#FAFAF8; border-top:1px solid rgba(10,10,10,0.06); scroll-margin-top:100px;">
     <div style="max-width:1140px; margin:0 auto;">
       <div data-reveal style="max-width:660px; margin:0 auto 56px; text-align:center; opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease;">
         <div data-i18n="how.label" style="font-family:'Space Mono',monospace; font-size:12px; color:#3A3A36; letter-spacing:0.16em; text-transform:uppercase; display:inline-block; padding:6px 14px; border:1px solid rgba(10,10,10,0.10); border-radius:100px; background:rgba(10,10,10,0.03); margin-bottom:18px;">Cómo funciona</div>
@@ -218,7 +286,7 @@
   </section>
 
   <!-- PRODUCTO / PANEL -->
-  <section id="producto" style="padding:108px 40px; background:#FFFFFF; border-top:1px solid rgba(10,10,10,0.06); scroll-margin-top:80px;">
+  <section id="producto" style="padding:108px 40px; background:#FFFFFF; border-top:1px solid rgba(10,10,10,0.06); scroll-margin-top:100px;">
     <div style="max-width:1180px; margin:0 auto;">
       <div data-reveal style="text-align:center; max-width:700px; margin:0 auto 52px; opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease;">
         <div data-i18n="prod.label" style="font-family:'Space Mono',monospace; font-size:12px; color:#3A3A36; letter-spacing:0.16em; text-transform:uppercase; display:inline-block; padding:6px 14px; border:1px solid rgba(10,10,10,0.10); border-radius:100px; background:rgba(10,10,10,0.03); margin-bottom:18px;">El producto</div>
@@ -235,7 +303,7 @@
        <div id="au-step-1" style="position:absolute; left:0; top:37.5%; width:1px; height:1px; scroll-margin-top:50vh; pointer-events:none;"></div>
        <div id="au-step-2" style="position:absolute; left:0; top:62.5%; width:1px; height:1px; scroll-margin-top:50vh; pointer-events:none;"></div>
        <div id="au-step-3" style="position:absolute; left:0; top:87.5%; width:1px; height:1px; scroll-margin-top:50vh; pointer-events:none;"></div>
-       <div id="au-prod-stage" class="au-prod-stage" style="position:sticky; top:80px; display:flex; align-items:center; min-height:calc(100vh - 120px);">
+       <div id="au-prod-stage" class="au-prod-stage" style="position:sticky; top:96px; display:flex; align-items:center; min-height:calc(100vh - 136px);">
       <div class="au-grid2" style="width:100%; display:grid; grid-template-columns:0.92fr 1.35fr; gap:40px; align-items:center;">
         <!-- TAB LIST -->
         <div id="au-prod-tablist" style="display:flex; flex-direction:column; gap:10px;">
@@ -269,7 +337,7 @@
   </section>
 
   <!-- METRICAS -->
-  <section id="metricas" style="padding:108px 40px; background:#FFFFFF; border-top:1px solid rgba(10,10,10,0.06); scroll-margin-top:80px;">
+  <section id="metricas" style="padding:108px 40px; background:#FFFFFF; border-top:1px solid rgba(10,10,10,0.06); scroll-margin-top:100px;">
     <div style="max-width:1100px; margin:0 auto; text-align:center;">
       <div data-reveal style="opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease;">
         <div data-i18n="met.label" style="font-family:'Space Mono',monospace; font-size:12px; color:#3A3A36; letter-spacing:0.16em; text-transform:uppercase; display:inline-block; padding:6px 14px; border:1px solid rgba(10,10,10,0.10); border-radius:100px; background:rgba(10,10,10,0.03); margin-bottom:18px;">Resultados esperados</div>
@@ -294,7 +362,7 @@
   </section>
 
   <!-- FUNCIONES -->
-  <section id="funciones" style="padding:108px 40px; border-top:1px solid rgba(10,10,10,0.06); scroll-margin-top:80px;">
+  <section id="funciones" style="padding:108px 40px; border-top:1px solid rgba(10,10,10,0.06); scroll-margin-top:100px;">
     <div style="max-width:1140px; margin:0 auto;">
       <div data-reveal style="max-width:660px; margin:0 auto 56px; text-align:center; opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease;">
         <div data-i18n="feat.label" style="font-family:'Space Mono',monospace; font-size:12px; color:#3A3A36; letter-spacing:0.16em; text-transform:uppercase; display:inline-block; padding:6px 14px; border:1px solid rgba(10,10,10,0.10); border-radius:100px; background:rgba(10,10,10,0.03); margin-bottom:18px;">Funciones</div>
@@ -337,7 +405,7 @@
   </section>
 
   <!-- WAITLIST / CTA -->
-  <section id="waitlist" class="au-grain" style="position:relative; overflow:hidden; padding:104px 40px; border-top:1px solid rgba(10,10,10,0.06); background:radial-gradient(60% 90% at 10% 22%, #2f7d4a 0%, transparent 55%), radial-gradient(70% 100% at 82% 78%, #d8c98a 0%, transparent 55%), radial-gradient(90% 100% at 55% 50%, #cdc7a4 0%, transparent 62%), linear-gradient(135deg,#4f8f73 0%,#d8c98a 100%); scroll-margin-top:80px;">
+  <section id="waitlist" class="au-grain" style="position:relative; overflow:hidden; padding:104px 40px; border-top:1px solid rgba(10,10,10,0.06); background:radial-gradient(60% 90% at 10% 22%, #2f7d4a 0%, transparent 55%), radial-gradient(70% 100% at 82% 78%, #d8c98a 0%, transparent 55%), radial-gradient(90% 100% at 55% 50%, #cdc7a4 0%, transparent 62%), linear-gradient(135deg,#4f8f73 0%,#d8c98a 100%); scroll-margin-top:100px;">
     <div class="au-grid2" style="position:relative; z-index:1; max-width:1060px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;">
       <div data-reveal style="opacity:0; transform:translateY(26px); transition:opacity .65s ease, transform .65s ease;">
         <div data-i18n="wl.label" style="display:inline-block; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:#fff; background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.35); padding:6px 14px; border-radius:100px; margin-bottom:20px;">Agenda tu demo</div>
@@ -532,6 +600,7 @@
     document.querySelectorAll('[data-i18n-ph]').forEach(el => { const k = el.getAttribute('data-i18n-ph'); const v = t(k); if (v != null) el.placeholder = v; });
     document.title = t('doc.title');
     const lbl = document.getElementById('lang-label'); if (lbl) lbl.textContent = lang.toUpperCase();
+    const lblM = document.getElementById('lang-label-m'); if (lblM) lblM.textContent = lang.toUpperCase();
     localStorage.setItem('auris_lang', lang);
   }
 
@@ -582,6 +651,44 @@
   document.getElementById('lang-toggle').addEventListener('click', function () {
     applyLang(LANG === 'es' ? 'en' : 'es');
   });
+  const langM = document.getElementById('lang-toggle-m');
+  if (langM) langM.addEventListener('click', function () { applyLang(LANG === 'es' ? 'en' : 'es'); });
+
+  // ===== Nav isla flotante + menú móvil =====
+  (function () {
+    const nav = document.getElementById('au-nav');
+    const burger = document.getElementById('au-burger');
+    const menu = document.getElementById('au-menu');
+    if (!nav) return;
+
+    let ticking = false;
+    const sync = () => {
+      nav.classList.toggle('is-float', window.scrollY > 16);
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(sync); }
+    }, { passive: true });
+    sync();
+
+    if (!burger || !menu) return;
+    const closeMenu = () => {
+      menu.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    };
+    burger.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', String(open));
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+    document.addEventListener('click', (e) => {
+      if (menu.classList.contains('open') && !nav.contains(e.target)) closeMenu();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+    window.addEventListener('resize', () => { if (window.innerWidth > 860) closeMenu(); });
+  })();
 
   // ===== Reveal on scroll =====
   const reveals = document.querySelectorAll('[data-reveal]');
